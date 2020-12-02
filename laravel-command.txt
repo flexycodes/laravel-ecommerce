@@ -1,0 +1,84 @@
+composer create-project --prefer-dist laravel/laravel blog
+
+-- Application Key
+php artisan key:generate
+
+php artisan serve
+
+---------------- Before migration ------------
+
+1- Then in Database.php add folder location:
+'unix_socket' => env('DB_SOCKET', '/Applications/MAMP/tmp/mysql/mysql.sock'),
+
+2- Then :
+
+-- Go to App->Providers->AppServiceProvider.php
+-- Add Schema::defaultStringLength(191); to the boot function
+-- make sure to add use Illuminate\Support\Facades\Schema; on the top of the file.
+
+-- Migrate
+https://stackoverflow.com/questions/46407490/laravel-no-such-file-or-directory-sql-create-table-migrations
+
+php artisan config:clear
+php artisan migrate:install
+php artisan migrate
+php artisan migrate --path=/database/migrations/2020_11_27_184528_create_phones_table.php
+
+
+php artisan migrate:refresh
+php artisan migrate:refresh --path=/database/migrations/2020_12_01_155101_create_admins_table.php
+
+
+------------------------------------------------
+
+-- controller
+php artisan make:controller User/UserController --invokable
+-- controller with CRUD
+php artisan make:controller Posts/PostsController --resource
+
+-- Auth
+composer require laravel/ui
+php artisan ui vue --auth
+yes
+
+-- Middleware
+php artisan make:middleware CheckAge
+
+
+-- Model
+php artisan make:model Admin -m
+php artisan migrate --path=/database/migrations/2020_12_01_161045_create_offers_table.php
+
+
+-- Email verefication
+https://mailtrap.io/
+
+composer dump-autoload
+
+-- Login with socialite
+composer require laravel/socialite
+https://developers.facebook.com/apps/
+
+App ID : 601367453939974
+App Secret : e1d16ca0e0c9288eed28251817f41eda
+
+-- Create Command
+php artisan make:command DailyQuote
+php artisan make:mail OrderShipped
+
+php artisan schedule:run
+php artisan notify:email
+
+-- Request
+php artisan make:request OfferRequest
+
+-- Event
+php artisan make:event VideoViewer
+php artisan make:listener IncreaseCounter
+
+-- Laravel classloader.php clear cache
+composer dumpautoload
+
+
+
+echo '<pre>'; print_r( $offers ); echo '</pre>';
